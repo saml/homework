@@ -7,18 +7,25 @@ pub fn mat_mult(mat1: &Matrix, mat2: &Matrix) -> Matrix {
     let rows2 = mat2.len();
     assert_eq!(cols1, rows2);
 
-    let rows = mat1.len();
-    let cols = mat2[0].len();
-    let m = vec![vec![]];
+    let rows1 = mat1.len();
+    let cols2 = mat2[0].len();
+    let mut m: Matrix = vec![vec![0.0; cols2]; rows1];
 
-    for x in 0..cols1 {
-        for y in 0..rows2 {
-            mat1[x][]
+    for row_index in 0..rows1 {
+        let ref row = mat1[row_index];
+        for col_index in 0..cols2 {
+            // dot product
+            let mut s = 0.0;
+            for i in 0..row.len() {
+                let x = row[i];
+                let y = mat2[i][col_index];
+                s += x * y;
+            }
+
+            m[row_index][col_index] = s;
         }
-
     }
-
-
+    m
 }
 
 #[cfg(test)]
